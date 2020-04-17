@@ -1,0 +1,39 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true      #routes里的uri如果是微服务名,就需要开启
+      routes:
+        - id: payment_routh           #路由id,没有固定规则,但要求唯一,建议配合服务名
+#          uri: http://localhost:8001    #匹配后提供服务的路由地址
+          uri: lb://CLOUD-PAYMENT-SERVICE  #lb协议,使用LoadBalancerClient,进行负载均衡
+          predicates:  #常用9种断言
+            - Path=/payment/get/**      #路径相匹配的进行路由
+#            - After=2020-04-17T22:55:49.208+08:00[Asia/Shanghai] #这个时间之后才能转发,还有Before,between  ZonedDateTime.now()获取当前时间
+#            - Cookie=username,xp  #cookie内需要含有username->xp键值对 值可用正则
+#            - Header=X-Request-Id,\d+  #请求头要有X-Request-Id属性,并且值为整数
+#            - Method=get   #请求方式
+#            - Host=**.xp.com  #host
+#            - Query=username, \d+  #请求参数
+        - id: pyment_routh2
+#          uri: http://localhost:8001
+          uri: lb://CLOUD-PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/lb/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/ #单机版,只注册到7001
+  #      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka #集群版,注册到所有eureka服务注册中心
+  instance:
+    instance-id: gateway
+    prefer-ip-address: true

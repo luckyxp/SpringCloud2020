@@ -1,0 +1,40 @@
+server:
+  port: 3344
+
+
+
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+#          uri: git@github.com:luckyxp/springcloud-config.git  #github仓库
+          uri: https://github.com/luckyxp/springcloud-config
+          search-paths: #搜索目录
+            - springcloud-config
+      label: master #读取分支
+      #访问路径http://config-3344.com:3344/master/config-dev.yml
+
+  #配置RabbitMQ
+  rabbitmq:
+    host: www.wxp520.top
+    port: 5672
+    username: admin
+    password: 123456
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+#RabbitMQ配置 ,暴露bus刷新配置的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'

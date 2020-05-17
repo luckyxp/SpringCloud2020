@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class ApplicationContextConfig {
     @Bean
-//    @LoadBalanced //请求的地址下如果有多个时 要此注解,负载均衡, 即paymentService是集群情况下 直接请求http://CLOUD-PAYMENT-SERVICE,它不知道是8001还是8002
+    @LoadBalanced //请求的地址下如果有多个时 要此注解,负载均衡, 即paymentService是集群情况下 直接请求http://CLOUD-PAYMENT-SERVICE,它不知道是8001还是8002
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }

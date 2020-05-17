@@ -67,11 +67,16 @@ public class PaymentController {
         for (ServiceInstance instance : instances) {
             log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort() + "\t" + instance.getUri());
         }
-        return new Object[]{this.discoveryClient,services,instances};
+        return new Object[]{this.discoveryClient, services, instances};
     }
 
     @GetMapping("/payment/lb")
     public String getPaymentLB() {
         return serverPort;
+    }
+
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin() {
+        return "here is payment-zipkin,hello !!";
     }
 }

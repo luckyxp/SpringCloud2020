@@ -1,0 +1,20 @@
+server:
+  port: 3377
+
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #服务注册中心
+      config:
+        server-addr: localhost:8848 #配置中心
+        file-extension: yaml #配置文件格式
+        namespace: 148c6de7-0839-45e2-90c0-260eaad9e69d #从哪个命名空间拉取,默认为public
+#        group: DEV_GROUP #拉取哪个分组下的配置,默认拉取 DEFAULT_GROUP
+#在nacos上的配置文件名(data id)需要遵循 ${prefix}-${spring.profile.active}.${file-extension} 命名规范
+#即当前服务如果需要从nacos获取配置文件,就需要在nacos上新建一个名为 nacos-config-client-dev.yaml的文件
+#注意:如果拉取的yml nacos上的文件名必须为XXX.yaml 而不能是 XXX.yml
+
+#说白了 就是通过 namespace group spring.profile.active进行锁定配置文件,相当于一个三级的文件夹,namespace在最外层
